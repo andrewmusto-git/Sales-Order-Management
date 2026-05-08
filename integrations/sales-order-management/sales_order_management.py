@@ -10,6 +10,8 @@ Entity model:
   Local Group ← SOM_GROUP  (SOM_GROUP_ID, SOM_GROUP_DESC)
   Membership  ← SOM_USER_GROUP join (user belongs to group)
 """
+from __future__ import annotations
+
 import argparse
 import json
 import logging

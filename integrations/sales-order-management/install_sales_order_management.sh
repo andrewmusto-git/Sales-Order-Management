@@ -33,6 +33,10 @@ LOGS_DIR="${INSTALL_DIR}/logs"
 NON_INTERACTIVE=false
 OVERWRITE_ENV=false
 
+# ── Detect real user when run via sudo ───────────────────────────────────────
+REAL_USER="${SUDO_USER:-${USER}}"
+REAL_GROUP=$(id -gn "${REAL_USER}" 2>/dev/null || echo "${REAL_USER}")
+
 # ── Colour helpers ────────────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; BLUE='\033[0;34m'; NC='\033[0m'
 info()  { echo -e "${BLUE}[INFO]${NC}  $*"; }
@@ -240,6 +244,12 @@ DATASOURCE_NAME=${DATASOURCE_NAME:-SOM}
 EOF
   chmod 600 "${ENV_FILE}"
   ok ".env written to ${ENV_FILE} (chmod 600)"
+fi
+
+# ── Fix ownership so the real user can access without sudo ──────────────────
+if [[ "${REAL_USER}" != "root" ]]; then
+  chown -R "${REAL_USER}:${REAL_GROUP}" "${INSTALL_DIR}"
+  ok "Ownership of ${INSTALL_DIR} set to ${REAL_USER}:${REAL_GROUP}"
 fi
 
 # ── Summary ───────────────────────────────────────────────────────────────────

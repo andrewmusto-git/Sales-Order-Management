@@ -419,30 +419,41 @@ def main() -> None:
     log.info("Starting SOM OAA integration — dry_run=%s provider=%s datasource=%s",
              args.dry_run, config["provider_name"], config["datasource_name"])
 
+    print("[1/5] Connecting to Oracle database...")
     conn = get_db_connection(config)
+    print("[1/5] Oracle connection established.")
     try:
         cursor = conn.cursor()
         try:
+            print("[2/5] Fetching groups from SOM_GROUP...")
             groups = fetch_groups(cursor)
+            print(f"[2/5] Fetched {len(groups)} groups.")
+            print("[3/5] Fetching user memberships from SOM_USER_GROUP...")
             memberships = fetch_memberships(cursor)
+            print(f"[3/5] Fetched {len(memberships)} membership rows.")
         finally:
             cursor.close()
     finally:
         conn.close()
         log.debug("Oracle connection closed")
 
+    print("[4/5] Building OAA payload...")
     app = build_oaa_payload(
         groups=groups,
         memberships=memberships,
         provider_name=config["provider_name"],
         datasource_name=config["datasource_name"],
     )
+    user_count = len(app.local_users)
+    group_count = len(app.local_groups)
+    print(f"[4/5] Payload built — {user_count} users, {group_count} groups.")
 
     # Default JSON output path for dry-run convenience
     save_json_path = args.save_json
     if args.dry_run and not save_json_path:
         save_json_path = "som_oaa_payload.json"
 
+    print(f"[5/5] Pushing to Veza ({config['veza_url']})...")
     push_to_veza(
         veza_url=config["veza_url"],
         veza_api_key=config["veza_api_key"],

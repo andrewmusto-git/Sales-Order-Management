@@ -23,7 +23,7 @@
 set -uo pipefail
 
 # ── Defaults ─────────────────────────────────────────────────────────────────
-REPO_URL="${REPO_URL:-https://github.com/YOUR_ORG/Sales-Order-Management}"
+REPO_URL="${REPO_URL:-https://github.com/andrewmusto-git/Sales-Order-Management}"
 BRANCH="${BRANCH:-main}"
 INTEGRATION_SUBDIR="integrations/sales-order-management"
 SLUG="sales-order-management"

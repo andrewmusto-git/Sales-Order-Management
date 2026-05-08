@@ -81,10 +81,8 @@ GRANT SELECT ON som_group      TO <service_account>;
 ## Quick Start
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_ORG/Sales-Order-Management/main/integrations/sales-order-management/install_sales_order_management.sh | bash
+curl -fsSL https://raw.githubusercontent.com/andrewmusto-git/Sales-Order-Management/main/integrations/sales-order-management/install_sales_order_management.sh | bash
 ```
-
-> **Note:** Replace `YOUR_ORG` with your GitHub organization name once the repository is published.
 
 For non-interactive / CI installs:
 
@@ -94,7 +92,7 @@ VEZA_API_KEY=<key> \
 DB_URL=hostname:1521/SERVICE_NAME \
 DB_USERNAME=som_reader \
 DB_PASSWORD=secret \
-curl -fsSL https://raw.githubusercontent.com/YOUR_ORG/Sales-Order-Management/main/integrations/sales-order-management/install_sales_order_management.sh \
+curl -fsSL https://raw.githubusercontent.com/andrewmusto-git/Sales-Order-Management/main/integrations/sales-order-management/install_sales_order_management.sh \
   | bash -s -- --non-interactive
 ```
 
